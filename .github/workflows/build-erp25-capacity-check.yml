@@ -1,0 +1,54 @@
+name: build-erp25-capacity-check
+
+on:
+  push:
+    branches:
+      - tooling/erp25-capacity-check
+    paths:
+      - "tools/erp25-capacity-check/**"
+      - ".github/workflows/build-erp25-capacity-check.yml"
+  workflow_dispatch:
+
+jobs:
+  build-epf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install EPF tooling
+        run: |
+          python -m pip install --upgrade pip
+          git clone --depth 1 https://github.com/Pradushkoai/1c-ai-dev-env.git tools/erp25-capacity-check/_builder
+          python -m pip install "git+https://github.com/saby-integration/v8unpack.git@main"
+
+      - name: Build EPF and verify round-trip
+        run: |
+          python tools/erp25-capacity-check/build.py
+
+      - name: Verify EPF signature
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("tools/erp25-capacity-check/dist/ПроверкаВыполнимостиПлана_ERP_2_5_22_186.epf")
+          assert p.exists(), p
+          sig = p.read_bytes()[:4]
+          assert sig == bytes.fromhex("ffffff7f"), sig.hex()
+          print("EPF:", p)
+          print("size:", p.stat().st_size)
+          print("signature:", sig.hex())
+          PY
+
+      - name: Upload EPF
+        uses: actions/upload-artifact@v4
+        with:
+          name: erp25-capacity-check-epf
+          path: tools/erp25-capacity-check/dist/ПроверкаВыполнимостиПлана_ERP_2_5_22_186.epf
+          if-no-files-found: error
+          retention-days: 14
