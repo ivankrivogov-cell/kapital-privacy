@@ -1,0 +1,53 @@
+{
+  "props": [
+    {"name":"Объект","type":"DataProcessorObject"},
+    {"name":"ПланПроизводства","type":"DocumentRef","document":"ПланПроизводства","synonym":"План производства"},
+    {"name":"НачалоГоризонта","type":"Date","synonym":"Начало расчета"},
+    {"name":"КонецГоризонта","type":"Date","synonym":"Конец расчета"},
+    {"name":"УчитыватьТекущуюЗанятость","type":"Boolean","synonym":"Учитывать текущую занятость"},
+    {"name":"СтатусРасчета","type":"String","length":250,"synonym":"Статус"},
+    {
+      "name":"Итоги","type":"ValueTable","synonym":"Выполнимость плана",
+      "columns":[
+        {"name":"НомерСтроки","type":"Number","digits":10,"fraction":0,"synonym":"Строка"},
+        {"name":"Номенклатура","type":"String","length":150,"synonym":"Номенклатура"},
+        {"name":"Характеристика","type":"String","length":150,"synonym":"Характеристика"},
+        {"name":"Количество","type":"Number","digits":15,"fraction":3,"synonym":"Количество"},
+        {"name":"ДатаЗапуска","type":"Date","synonym":"Плановый запуск"},
+        {"name":"ДатаВыпуска","type":"Date","synonym":"Плановый выпуск"},
+        {"name":"РасчетноеОкончание","type":"Date","synonym":"Расчетное окончание"},
+        {"name":"Статус","type":"String","length":40,"synonym":"Результат"},
+        {"name":"ОтклонениеДней","type":"Number","digits":10,"fraction":1,"synonym":"Отклонение, дн."},
+        {"name":"Ограничение","type":"String","length":250,"synonym":"Ограничение"}
+      ]
+    },
+    {
+      "name":"Операции","type":"ValueTable","synonym":"Расчет операций",
+      "columns":[
+        {"name":"НомерСтрокиПлана","type":"Number","digits":10,"fraction":0,"synonym":"Строка плана"},
+        {"name":"Номенклатура","type":"String","length":150,"synonym":"Номенклатура"},
+        {"name":"Этап","type":"String","length":120,"synonym":"Этап"},
+        {"name":"НомерЭтапа","type":"Number","digits":10,"fraction":0,"synonym":"N этапа"},
+        {"name":"Операция","type":"String","length":150,"synonym":"Операция"},
+        {"name":"НомерОперации","type":"Number","digits":10,"fraction":0,"synonym":"N операции"},
+        {"name":"ВидРабочегоЦентра","type":"String","length":150,"synonym":"Вид РЦ"},
+        {"name":"ТрудоемкостьЧасов","type":"Number","digits":15,"fraction":2,"synonym":"Трудоемкость, ч"},
+        {"name":"РасчетноеНачало","type":"Date","synonym":"Начало"},
+        {"name":"РасчетноеОкончание","type":"Date","synonym":"Окончание"},
+        {"name":"Статус","type":"String","length":60,"synonym":"Статус"}
+      ]
+    },
+    {
+      "name":"Ресурсы","type":"ValueTable","synonym":"Загрузка ВРЦ",
+      "columns":[
+        {"name":"ВидРабочегоЦентра","type":"String","length":150,"synonym":"Вид РЦ"},
+        {"name":"ДатаИнтервала","type":"Date","synonym":"Интервал"},
+        {"name":"ДоступноЧасов","type":"Number","digits":15,"fraction":2,"synonym":"Доступно, ч"},
+        {"name":"ЗанятоСейчасЧасов","type":"Number","digits":15,"fraction":2,"synonym":"Уже занято, ч"},
+        {"name":"ЗанятоПланомЧасов","type":"Number","digits":15,"fraction":2,"synonym":"Занято планом, ч"},
+        {"name":"СвободноПослеЧасов","type":"Number","digits":15,"fraction":2,"synonym":"Остаток, ч"},
+        {"name":"ЗагрузкаПроцент","type":"Number","digits":10,"fraction":1,"synonym":"Загрузка, %"}
+      ]
+    }
+  ]
+}
