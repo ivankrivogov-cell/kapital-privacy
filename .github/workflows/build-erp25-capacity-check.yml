@@ -36,18 +36,20 @@ jobs:
 
       - name: BSL syntax analysis
         run: |
-          mkdir -p tools/erp25-capacity-check/bsl-report
+          rm -rf /tmp/erp25-bsl-src /tmp/erp25-bsl-report
+          mkdir -p /tmp/erp25-bsl-src /tmp/erp25-bsl-report
+          cp tools/erp25-capacity-check/form_module.bsl /tmp/erp25-bsl-src/Module.bsl
           curl -L --fail --retry 3 -o /tmp/bsl-language-server.jar \
             https://github.com/1c-syntax/bsl-language-server/releases/download/v1.0.7/bsl-language-server-1.0.7-exec.jar
           java -jar /tmp/bsl-language-server.jar analyze \
-            -s tools/erp25-capacity-check \
+            -s /tmp/erp25-bsl-src \
             -r json \
-            -o tools/erp25-capacity-check/bsl-report \
+            -o /tmp/erp25-bsl-report \
             -q
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path("tools/erp25-capacity-check/bsl-report/bsl-json.json")
+          p = Path("/tmp/erp25-bsl-report/bsl-json.json")
           data = json.loads(p.read_text(encoding="utf-8"))
           errors = []
           for fi in data.get("fileinfos", []):
