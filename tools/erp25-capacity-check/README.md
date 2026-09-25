@@ -19,3 +19,5 @@
 Сборка EPF выполняется GitHub Actions через v8unpack и обязательный round-trip.
 
 Важно: runtime smoke-test на самой конфигурации 2.5.22.186 запускается отдельным job на self-hosted Windows runner с установленной платформой 1С.
+
+CI trigger: public GitHub runner build.
